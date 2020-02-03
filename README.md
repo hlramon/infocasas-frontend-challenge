@@ -2,7 +2,7 @@
 
 Welcome to the InfoCasas frontend coding challenge! Please read the following instructions carefully.
 
-**Your goal is to set up an application which enables the user to view and manage listings.**
+**Your goal is to set up a personal task management app that lets users to track and focus on the things they need to get done.**
 
 # Contents
 
