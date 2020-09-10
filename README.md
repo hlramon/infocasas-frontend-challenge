@@ -43,12 +43,13 @@ The full criteria for evaluating the coding challenge can be found [here](./Crit
 - Create a git bundle: `git bundle create your_name.bundle --all`
 - Email the bundle file to your point of contact.
 
-###IMPORTANT: 
-The project must include a “readme” file with instructions for running the local env. It should specify basic obious commands (such as npm install) and also any extra command or step to run de local env.
+#### IMPORTANT !!!!
+The project must include a `readme` file with **instructions for running the local env**. It should specify basic obious commands (such as npm install) and also any extra command or step to run de local env.
 
-If the project needs some environment file (that usually should be ignored in the git repo) you must add an example file with the necessary configs and it must be mentioned in the “readme” file instructions. (ej:  if you need a .env file, you must add a .example.env or some similar).  
+If the project needs some environment file (that usually should be ignored in the git repo) you must add an example file with the necessary configs and it must be mentioned in the `readme` file instructions. (ej:  if you need a .env file, you must add a .example.env or something similar).  
 
-If the project doesn’t provide clear instructions on how to run it the candidate will be disqualified. We will not “try hard” to run your project.
+If the project doesn’t provide clear instructions on how to run it **the candidate will be disqualified**. We will not “try hard” to run your project.
+
 
 
 # API server
