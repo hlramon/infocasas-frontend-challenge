@@ -37,6 +37,14 @@ function HomePage({ todos }) {
     setTodosFromState(newTasks);
   };
 
+  const sortTodos = (todoA, todoB) => {
+    if (sortByCompleteness) {
+      return todoA.completed ? -1 : 1;
+    } else {
+      return todoA.completed ? 1 : -1;
+    }
+  };
+
   return (
     <Layout>
       <h1>Welcome to the Personal Task Management App!</h1>
@@ -59,23 +67,26 @@ function HomePage({ todos }) {
             Sort by completeness
           </button>
           <ul>
-            {todosFromState.filter(filterTodos).map((todo) => {
-              return (
-                <li key={todo.id}>
-                  <p>
-                    <input
-                      type="checkbox"
-                      checked={todo.completed}
-                      onChange={() => {
-                        onCheckCompleted(todo.id);
-                      }}
-                    />
-                    <input type="text" defaultValue={todo.title} />
-                    <button>X</button>
-                  </p>
-                </li>
-              );
-            })}
+            {todosFromState
+              .filter(filterTodos)
+              .sort(sortTodos)
+              .map((todo) => {
+                return (
+                  <li key={todo.id}>
+                    <p>
+                      <input
+                        type="checkbox"
+                        checked={todo.completed}
+                        onChange={() => {
+                          onCheckCompleted(todo.id);
+                        }}
+                      />
+                      <input type="text" defaultValue={todo.title} />
+                      <button>X</button>
+                    </p>
+                  </li>
+                );
+              })}
           </ul>
         </div>
       </div>
