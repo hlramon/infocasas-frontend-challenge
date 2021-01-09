@@ -1,5 +1,11 @@
+import Layout from "../components/layout";
+
 function HomePage() {
-  return <div>Welcome to Next.js!</div>;
+  return (
+    <Layout>
+      <div>Welcome to the Personal Task Management App!</div>
+    </Layout>
+  );
 }
 
 export default HomePage;
