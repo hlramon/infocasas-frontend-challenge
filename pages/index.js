@@ -73,13 +73,26 @@ function HomePage({ todos }) {
     setTodosFromState(newTodos);
   };
 
-  const updateTodoTitle = ({ id, title }) => {
+  const updateTodoTitle = async ({ id, title }) => {
+    const todo = todosFromState.find((todo) => todo.id === id);
+
     const newTodos = todosFromState.map((todo) => {
       if (todo.id === id) {
         todo.title = title;
       }
       return todo;
     });
+
+    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify({
+        title: todo.title,
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    });
+
     setTodosFromState(newTodos);
   };
 
