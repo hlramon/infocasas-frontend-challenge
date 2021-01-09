@@ -4,6 +4,7 @@ import TaskForm from "../components/taskForm";
 
 function HomePage({ todos }) {
   const [todosFromState, setTodosFromState] = useState(todos);
+  const [filterTasksInput, setFilterTasksInput] = useState("");
 
   const addTask = ({ title }) => {
     const newTask = {
@@ -14,6 +15,14 @@ function HomePage({ todos }) {
     setTodosFromState([...todosFromState, newTask]);
   };
 
+  const filterTodos = (todo) => {
+    if (filterTasksInput === "") {
+      return todo;
+    }
+    if (todo.title.toLowerCase().includes(filterTasksInput.toLowerCase())) {
+      return todo;
+    }
+  };
   return (
     <Layout>
       <h1>Welcome to the Personal Task Management App!</h1>
@@ -24,10 +33,15 @@ function HomePage({ todos }) {
 
         <div>
           <p>Filter and Sort Tasks</p>
-          <input type="text" placeholder="Filter tasks" />
+          <input
+            type="text"
+            placeholder="Filter tasks"
+            value={filterTasksInput}
+            onChange={(e) => setFilterTasksInput(e.target.value)}
+          />
           <button>Sort by completeness</button>
           <ul>
-            {todosFromState.map((todo) => {
+            {todosFromState.filter(filterTodos).map((todo) => {
               return (
                 <li key={todo.id}>
                   <p>
