@@ -37,13 +37,26 @@ function HomePage({ todos }) {
     }
   };
 
-  const onCheckCompleted = (id) => {
+  const onCheckCompleted = async (id) => {
+    const todo = todosFromState.find((todo) => todo.id === id);
+
     const newTodos = todosFromState.map((todo) => {
       if (todo.id === id) {
         todo.completed = !todo.completed;
       }
       return todo;
     });
+
+    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify({
+        completed: todo.completed,
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    });
+
     setTodosFromState(newTodos);
   };
 
