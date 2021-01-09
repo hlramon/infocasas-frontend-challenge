@@ -6,6 +6,7 @@ function TaskForm({ addTask }) {
   const onSubmit = (e) => {
     e.preventDefault();
     addTask({ title });
+    setTitle("");
   };
 
   return (
@@ -17,6 +18,7 @@ function TaskForm({ addTask }) {
           placeholder="Add task"
           name="title"
           onChange={(e) => setTitle(e.target.value)}
+          value={title}
         />
         <button>Add task</button>
       </form>
