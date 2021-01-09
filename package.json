@@ -6,7 +6,7 @@
   "author": "InfoCasas Recruiting Team",
   "license": "MIT",
   "scripts": {
-    "dev": "next",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start"
   },
