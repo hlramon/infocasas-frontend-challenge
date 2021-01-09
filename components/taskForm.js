@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 
-function TaskForm({ addTask }) {
+function TaskForm({ addTodo }) {
   const [title, setTitle] = useState("");
 
   const onSubmit = (e) => {
     e.preventDefault();
     if (title) {
-      addTask({ title });
+      addTodo({ title });
       setTitle("");
     }
   };
