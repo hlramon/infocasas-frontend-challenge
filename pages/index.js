@@ -5,14 +5,17 @@ import TaskForm from "../components/taskForm";
 function HomePage({ todos }) {
   const [todosFromState, setTodosFromState] = useState(todos);
   const [filterTasksInput, setFilterTasksInput] = useState("");
+  const [sortByCompleteness, setSortByCompleteness] = useState(false);
 
   const addTask = ({ title }) => {
-    const newTask = {
-      id: todosFromState.length + 1,
-      title,
-      completed: false,
-    };
-    setTodosFromState([...todosFromState, newTask]);
+    if (title) {
+      const newTask = {
+        id: todosFromState.length + 1,
+        title,
+        completed: false,
+      };
+      setTodosFromState([...todosFromState, newTask]);
+    }
   };
 
   const filterTodos = (todo) => {
@@ -23,6 +26,17 @@ function HomePage({ todos }) {
       return todo;
     }
   };
+
+  const onCheckCompleted = (id) => {
+    const newTasks = todosFromState.map((todo) => {
+      if (todo.id === id) {
+        todo.completed = !todo.completed;
+      }
+      return todo;
+    });
+    setTodosFromState(newTasks);
+  };
+
   return (
     <Layout>
       <h1>Welcome to the Personal Task Management App!</h1>
@@ -39,13 +53,23 @@ function HomePage({ todos }) {
             value={filterTasksInput}
             onChange={(e) => setFilterTasksInput(e.target.value)}
           />
-          <button>Sort by completeness</button>
+          <button
+            onClick={() => setSortByCompleteness((prevSort) => !prevSort)}
+          >
+            Sort by completeness
+          </button>
           <ul>
             {todosFromState.filter(filterTodos).map((todo) => {
               return (
                 <li key={todo.id}>
                   <p>
-                    <input type="checkbox" defaultValue={todo.completed} />
+                    <input
+                      type="checkbox"
+                      checked={todo.completed}
+                      onChange={() => {
+                        onCheckCompleted(todo.id);
+                      }}
+                    />
                     <input type="text" defaultValue={todo.title} />
                     <button>X</button>
                   </p>
