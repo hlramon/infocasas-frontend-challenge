@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Layout from "../components/layout";
 import TodoForm from "../components/todoForm";
+import Todos from "../components/todos";
 
 function HomePage({ todos }) {
   const [todosFromState, setTodosFromState] = useState(todos);
@@ -124,37 +125,15 @@ function HomePage({ todos }) {
           >
             Sort by completeness
           </button>
-          <ul>
-            {todosFromState
-              .filter(filterTodos)
-              .sort(sortTodos)
-              .map((todo) => {
-                return (
-                  <li key={todo.id}>
-                    <p>
-                      <input
-                        type="checkbox"
-                        checked={todo.completed}
-                        onChange={() => {
-                          onCheckCompleted(todo.id);
-                        }}
-                      />
-                      <input
-                        type="text"
-                        defaultValue={todo.title}
-                        onBlur={(e) => {
-                          updateTodoTitle({
-                            id: todo.id,
-                            title: e.target.value,
-                          });
-                        }}
-                      />
-                      <button onClick={() => deleteTodo(todo.id)}>X</button>
-                    </p>
-                  </li>
-                );
-              })}
-          </ul>
+
+          <Todos
+            todos={todosFromState}
+            filterTodos={filterTodos}
+            sortTodos={sortTodos}
+            onCheckCompleted={onCheckCompleted}
+            updateTodoTitle={updateTodoTitle}
+            deleteTodo={deleteTodo}
+          />
         </div>
       </div>
     </Layout>
