@@ -5,8 +5,10 @@ function TaskForm({ addTask }) {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    addTask({ title });
-    setTitle("");
+    if (title) {
+      addTask({ title });
+      setTitle("");
+    }
   };
 
   return (
