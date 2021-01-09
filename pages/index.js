@@ -50,6 +50,16 @@ function HomePage({ todos }) {
     setTodosFromState(newTodos);
   };
 
+  const updateTodoTitle = ({ id, title }) => {
+    const newTodos = todosFromState.map((todo) => {
+      if (todo.id === id) {
+        todo.title = title;
+      }
+      return todo;
+    });
+    setTodosFromState(newTodos);
+  };
+
   return (
     <Layout>
       <h1>Welcome to the Personal Task Management App!</h1>
@@ -86,7 +96,16 @@ function HomePage({ todos }) {
                           onCheckCompleted(todo.id);
                         }}
                       />
-                      <input type="text" defaultValue={todo.title} />
+                      <input
+                        type="text"
+                        defaultValue={todo.title}
+                        onBlur={(e) => {
+                          updateTodoTitle({
+                            id: todo.id,
+                            title: e.target.value,
+                          });
+                        }}
+                      />
                       <button onClick={() => deleteTodo(todo.id)}>X</button>
                     </p>
                   </li>
