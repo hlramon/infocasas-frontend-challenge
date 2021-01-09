@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Layout from "../components/layout";
-import TaskForm from "../components/taskForm";
+import TodoForm from "../components/todoForm";
 
 function HomePage({ todos }) {
   const [todosFromState, setTodosFromState] = useState(todos);
@@ -109,7 +109,7 @@ function HomePage({ todos }) {
       <div>
         <h2>TODOS</h2>
 
-        <TaskForm addTodo={addTodo} />
+        <TodoForm addTodo={addTodo} />
 
         <div>
           <p>Filter and Sort Tasks</p>

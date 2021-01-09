@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function TaskForm({ addTodo }) {
+function TodoForm({ addTodo }) {
   const [title, setTitle] = useState("");
 
   const onSubmit = (e) => {
@@ -28,4 +28,4 @@ function TaskForm({ addTodo }) {
   );
 }
 
-export default TaskForm;
+export default TodoForm;
