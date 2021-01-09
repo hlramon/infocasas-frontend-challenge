@@ -7,13 +7,23 @@ function HomePage({ todos }) {
   const [filterTasksInput, setFilterTasksInput] = useState("");
   const [sortByCompleteness, setSortByCompleteness] = useState(false);
 
-  const addTodo = ({ title }) => {
+  const addTodo = async ({ title }) => {
     if (title) {
       const newTodo = {
         id: todosFromState.length + 1,
         title,
         completed: false,
+        userId: 1,
       };
+
+      await fetch(process.env.NEXT_PUBLIC_API_URL, {
+        method: "POST",
+        body: JSON.stringify(newTodo),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+
       setTodosFromState([...todosFromState, newTodo]);
     }
   };
