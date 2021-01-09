@@ -119,20 +119,8 @@ function HomePage({ todos }) {
 }
 
 export async function getServerSideProps(context) {
-  const todos = [
-    {
-      userId: 1,
-      id: 1,
-      title: "delectus aut autem",
-      completed: false,
-    },
-    {
-      userId: 1,
-      id: 2,
-      title: "quis ut nam facilis et officia qui",
-      completed: false,
-    },
-  ];
+  const res = await fetch(process.env.NEXT_PUBLIC_API_URL);
+  const todos = await res.json();
 
   return {
     props: {
