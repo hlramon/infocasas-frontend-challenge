@@ -16,7 +16,7 @@ function HomePage({ todos }) {
         userId: 1,
       };
 
-      await fetch(process.env.NEXT_PUBLIC_API_URL, {
+      const res = await fetch(process.env.NEXT_PUBLIC_API_URL, {
         method: "POST",
         body: JSON.stringify(newTodo),
         headers: {
@@ -47,7 +47,7 @@ function HomePage({ todos }) {
       return todo;
     });
 
-    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${id}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${id}`, {
       method: "PATCH",
       body: JSON.stringify({
         completed: todo.completed,
@@ -70,33 +70,37 @@ function HomePage({ todos }) {
 
   const deleteTodo = async (id) => {
     const newTodos = todosFromState.filter((todo) => todo.id !== id);
-    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${id}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${id}`, {
       method: "DELETE",
     });
     setTodosFromState(newTodos);
   };
 
   const updateTodoTitle = async ({ id, title }) => {
-    const todo = todosFromState.find((todo) => todo.id === id);
+    const todo = todosFromState.find(
+      (todo) => todo.id === id && todo.title !== title
+    );
 
-    const newTodos = todosFromState.map((todo) => {
-      if (todo.id === id) {
-        todo.title = title;
-      }
-      return todo;
-    });
+    if (todo) {
+      const newTodos = todosFromState.map((todo) => {
+        if (todo.id === id) {
+          todo.title = title;
+        }
+        return todo;
+      });
 
-    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${id}`, {
-      method: "PATCH",
-      body: JSON.stringify({
-        title: todo.title,
-      }),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-      },
-    });
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${id}`, {
+        method: "PATCH",
+        body: JSON.stringify({
+          title: todo.title,
+        }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
 
-    setTodosFromState(newTodos);
+      setTodosFromState(newTodos);
+    }
   };
 
   return (
