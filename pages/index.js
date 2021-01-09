@@ -28,13 +28,13 @@ function HomePage({ todos }) {
   };
 
   const onCheckCompleted = (id) => {
-    const newTasks = todosFromState.map((todo) => {
+    const newTodos = todosFromState.map((todo) => {
       if (todo.id === id) {
         todo.completed = !todo.completed;
       }
       return todo;
     });
-    setTodosFromState(newTasks);
+    setTodosFromState(newTodos);
   };
 
   const sortTodos = (todoA, todoB) => {
@@ -43,6 +43,11 @@ function HomePage({ todos }) {
     } else {
       return todoA.completed ? 1 : -1;
     }
+  };
+
+  const deleteTodo = (id) => {
+    const newTodos = todosFromState.filter((todo) => todo.id !== id);
+    setTodosFromState(newTodos);
   };
 
   return (
@@ -82,7 +87,7 @@ function HomePage({ todos }) {
                         }}
                       />
                       <input type="text" defaultValue={todo.title} />
-                      <button>X</button>
+                      <button onClick={() => deleteTodo(todo.id)}>X</button>
                     </p>
                   </li>
                 );
