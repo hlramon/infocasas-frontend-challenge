@@ -1,26 +1,33 @@
+import React, { useState } from "react";
 import Layout from "../components/layout";
+import TaskForm from "../components/taskForm";
 
 function HomePage({ todos }) {
+  const [todosFromState, setTodosFromState] = useState(todos);
+
+  const addTask = ({ title }) => {
+    const newTask = {
+      id: todosFromState.length + 1,
+      title,
+      completed: false,
+    };
+    setTodosFromState([...todosFromState, newTask]);
+  };
+
   return (
     <Layout>
       <h1>Welcome to the Personal Task Management App!</h1>
       <div>
         <h2>TODOS</h2>
 
-        <div>
-          <form>
-            <p>Add task</p>
-            <input type="text" placeholder="Add task" />
-            <button>Add task</button>
-          </form>
-        </div>
+        <TaskForm addTask={addTask} />
 
         <div>
           <p>Filter and Sort Tasks</p>
           <input type="text" placeholder="Filter tasks" />
           <button>Sort by completeness</button>
           <ul>
-            {todos.map((todo) => {
+            {todosFromState.map((todo) => {
               return (
                 <li key={todo.id}>
                   <p>
