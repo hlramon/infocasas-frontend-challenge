@@ -68,8 +68,11 @@ function HomePage({ todos }) {
     }
   };
 
-  const deleteTodo = (id) => {
+  const deleteTodo = async (id) => {
     const newTodos = todosFromState.filter((todo) => todo.id !== id);
+    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${id}`, {
+      method: "DELETE",
+    });
     setTodosFromState(newTodos);
   };
 
