@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import FilterAndSort from "../components/filterAndSort";
 import Layout from "../components/layout";
 import TodoForm from "../components/todoForm";
 import Todos from "../components/todos";
@@ -104,6 +105,14 @@ function HomePage({ todos }) {
     }
   };
 
+  const onFilterChange = (e) => {
+    setFilterTasksInput(e.target.value);
+  };
+
+  const onSortChange = (e) => {
+    setSortByCompleteness((prevSort) => !prevSort);
+  };
+
   return (
     <Layout>
       <h1>Welcome to the Personal Task Management App!</h1>
@@ -113,18 +122,10 @@ function HomePage({ todos }) {
         <TodoForm addTodo={addTodo} />
 
         <div>
-          <p>Filter and Sort Tasks</p>
-          <input
-            type="text"
-            placeholder="Filter tasks"
-            value={filterTasksInput}
-            onChange={(e) => setFilterTasksInput(e.target.value)}
+          <FilterAndSort
+            onFilterChange={onFilterChange}
+            onSortChange={onSortChange}
           />
-          <button
-            onClick={() => setSortByCompleteness((prevSort) => !prevSort)}
-          >
-            Sort by completeness
-          </button>
 
           <Todos
             todos={todosFromState}
