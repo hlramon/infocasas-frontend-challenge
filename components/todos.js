@@ -1,5 +1,7 @@
 import React from "react";
 import Todo from "./todo";
+import utilStyles from "../styles/utils.module.css";
+import styles from "./todos.module.css";
 
 function Todos({
   todos,
@@ -10,22 +12,24 @@ function Todos({
   deleteTodo,
 }) {
   return (
-    <ul>
-      {todos
-        .filter(filterTodos)
-        .sort(sortTodos)
-        .map((todo) => {
-          return (
-            <Todo
-              key={todo.id}
-              todo={todo}
-              onCheckCompleted={onCheckCompleted}
-              updateTodoTitle={updateTodoTitle}
-              deleteTodo={deleteTodo}
-            />
-          );
-        })}
-    </ul>
+    <div className={utilStyles.marginTop}>
+      <ul className={styles.todosList}>
+        {todos
+          .filter(filterTodos)
+          .sort(sortTodos)
+          .map((todo) => {
+            return (
+              <Todo
+                key={todo.id}
+                todo={todo}
+                onCheckCompleted={onCheckCompleted}
+                updateTodoTitle={updateTodoTitle}
+                deleteTodo={deleteTodo}
+              />
+            );
+          })}
+      </ul>
+    </div>
   );
 }
 
