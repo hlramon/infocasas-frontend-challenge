@@ -147,6 +147,7 @@ function HomePage({ todos }) {
           <FilterAndSort
             onFilterChange={onFilterChange}
             onSortChange={onSortChange}
+            completeness={!sortByCompleteness}
           />
 
           <Todos

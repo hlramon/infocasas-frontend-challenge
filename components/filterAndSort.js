@@ -1,6 +1,6 @@
 import utilsStyles from "../styles/utils.module.css";
 
-function FilterAndSort({ onFilterChange, onSortChange }) {
+function FilterAndSort({ onFilterChange, onSortChange, completeness }) {
   return (
     <div className={utilsStyles.marginTop}>
       <h3>Filter and Sort Tasks</h3>
@@ -15,7 +15,7 @@ function FilterAndSort({ onFilterChange, onSortChange }) {
         </div>
         <div className="col-sm-6">
           <button className="btn btn-info" onClick={onSortChange}>
-            Sort by completeness
+            Sort by {completeness ? "completeness" : "uncompleteness"}
           </button>
         </div>
       </div>
