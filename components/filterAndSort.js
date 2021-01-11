@@ -1,9 +1,24 @@
+import utilsStyles from "../styles/utils.module.css";
+
 function FilterAndSort({ onFilterChange, onSortChange }) {
   return (
-    <div>
-      <p>Filter and Sort Tasks</p>
-      <input type="text" placeholder="Filter tasks" onChange={onFilterChange} />
-      <button onClick={onSortChange}>Sort by completeness</button>
+    <div className={utilsStyles.marginTop}>
+      <h3>Filter and Sort Tasks</h3>
+      <div className="row">
+        <div className="col-sm-6">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Filter tasks"
+            onChange={onFilterChange}
+          />
+        </div>
+        <div className="col-sm-6">
+          <button className="btn btn-info" onClick={onSortChange}>
+            Sort by completeness
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
