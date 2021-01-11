@@ -9,10 +9,17 @@ function HomePage({ todos }) {
   const [filterTasksInput, setFilterTasksInput] = useState("");
   const [sortByCompleteness, setSortByCompleteness] = useState(false);
 
+  const getNewTodoId = () => {
+    const newTodos = [...todosFromState].sort(
+      (todoA, todoB) => todoB.id - todoA.id
+    );
+    return newTodos[0].id + 1;
+  };
+
   const addTodo = async ({ title }) => {
     if (title) {
       const newTodo = {
-        id: todosFromState.length + 1,
+        id: getNewTodoId(),
         title,
         completed: false,
         userId: 1,
