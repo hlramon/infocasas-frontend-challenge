@@ -6,13 +6,15 @@ Welcome to the InfoCasas frontend coding challenge! Please read the following in
 
 # Contents
 
--   [Use cases](#use-cases)
--   [Evaluation criteria](#evaluation-criteria)
-    -   [Technology requirements](#technology-requirements)
-    -   [Code requirements](Criteria.md#must-have)
--   [How to submit](#how-to-submit)
--   [API server](#api-server)
--   [Time limit](#time-limit)
+- [Use cases](#use-cases)
+- [Evaluation criteria](#evaluation-criteria)
+  - [Technology requirements](#technology-requirements)
+  - [Code requirements](Criteria.md#must-have)
+- [How to submit](#how-to-submit)
+- [API server](#api-server)
+- [Time limit](#time-limit)
+- [Installation](#installation)
+- [Running](#running)
 
 # Use cases
 
@@ -44,13 +46,12 @@ The full criteria for evaluating the coding challenge can be found [here](./Crit
 - Email the bundle file to your point of contact.
 
 #### IMPORTANT !!!!
+
 The project must include a `readme` file with **instructions for running the local env**. It should specify basic obious commands (such as npm install) and also any extra command or step to run de local env.
 
-If the project needs some environment file (that usually should be ignored in the git repo) you must add an example file with the necessary configs and it must be mentioned in the `readme` file instructions. (ej:  if you need a .env file, you must add a .example.env or something similar).  
+If the project needs some environment file (that usually should be ignored in the git repo) you must add an example file with the necessary configs and it must be mentioned in the `readme` file instructions. (ej: if you need a .env file, you must add a .example.env or something similar).
 
 If the project doesn’t provide clear instructions on how to run it **the candidate will be disqualified**. We will not “try hard” to run your project.
-
-
 
 # API server
 
@@ -64,3 +65,13 @@ There is no hard time limit for this coding challenge. However, we believe that 
 
 Good luck,
 The InfoCasas Team
+
+# Installation
+
+In the root of the project execute `npm install`
+
+# Running
+
+To run, create a file from .example.env called .env.local and add the necessary information.
+
+Then run `npm run dev` in the terminal. This command will create a server running on port 3000
