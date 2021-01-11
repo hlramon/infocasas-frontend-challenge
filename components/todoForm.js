@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import utilsStyles from "../styles/utils.module.css";
 
 function TodoForm({ addTodo }) {
   const [title, setTitle] = useState("");
@@ -12,17 +13,24 @@ function TodoForm({ addTodo }) {
   };
 
   return (
-    <div>
+    <div className={utilsStyles.marginTop}>
       <form onSubmit={onSubmit}>
-        <p>Add task</p>
-        <input
-          type="text"
-          placeholder="Add task"
-          name="title"
-          onChange={(e) => setTitle(e.target.value)}
-          value={title}
-        />
-        <button>Add task</button>
+        <h3>Add task</h3>
+        <div className="row">
+          <div className="col-sm-6">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Add task"
+              name="title"
+              onChange={(e) => setTitle(e.target.value)}
+              value={title}
+            />
+          </div>
+          <div className="col-sm-6">
+            <button className="btn btn-primary">Add task</button>
+          </div>
+        </div>
       </form>
     </div>
   );
