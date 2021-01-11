@@ -124,7 +124,7 @@ function HomePage({ todos }) {
     <Layout>
       <h1>Welcome to the Personal Task Management App!</h1>
       <div>
-        <h2>TODOS</h2>
+        <h2>Tasks</h2>
 
         <TodoForm addTodo={addTodo} />
 
