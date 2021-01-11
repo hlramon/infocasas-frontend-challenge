@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import FilterAndSort from "../components/filterAndSort";
 import Layout from "../components/layout";
+import Loading from "../components/loading";
 import TodoForm from "../components/todoForm";
 import Todos from "../components/todos";
-
 function HomePage({ todos }) {
   const [todosFromState, setTodosFromState] = useState(todos);
   const [filterTasksInput, setFilterTasksInput] = useState("");
   const [sortByCompleteness, setSortByCompleteness] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const getNewTodoId = () => {
     const newTodos = [...todosFromState].sort(
@@ -24,7 +25,7 @@ function HomePage({ todos }) {
         completed: false,
         userId: 1,
       };
-
+      setLoading(true);
       const res = await fetch(process.env.NEXT_PUBLIC_API_URL, {
         method: "POST",
         body: JSON.stringify(newTodo),
@@ -32,6 +33,7 @@ function HomePage({ todos }) {
           "Content-type": "application/json; charset=UTF-8",
         },
       });
+      setLoading(false);
 
       setTodosFromState([...todosFromState, newTodo]);
     }
@@ -56,6 +58,8 @@ function HomePage({ todos }) {
       return todo;
     });
 
+    setLoading(true);
+
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${id}`, {
       method: "PATCH",
       body: JSON.stringify({
@@ -65,6 +69,7 @@ function HomePage({ todos }) {
         "Content-type": "application/json; charset=UTF-8",
       },
     });
+    setLoading(false);
 
     setTodosFromState(newTodos);
   };
@@ -79,9 +84,14 @@ function HomePage({ todos }) {
 
   const deleteTodo = async (id) => {
     const newTodos = todosFromState.filter((todo) => todo.id !== id);
+    setLoading(true);
+
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${id}`, {
       method: "DELETE",
     });
+
+    setLoading(false);
+
     setTodosFromState(newTodos);
   };
 
@@ -98,6 +108,8 @@ function HomePage({ todos }) {
         return todo;
       });
 
+      setLoading(true);
+
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${id}`, {
         method: "PATCH",
         body: JSON.stringify({
@@ -107,6 +119,8 @@ function HomePage({ todos }) {
           "Content-type": "application/json; charset=UTF-8",
         },
       });
+
+      setLoading(false);
 
       setTodosFromState(newTodos);
     }
@@ -122,6 +136,7 @@ function HomePage({ todos }) {
 
   return (
     <Layout>
+      <Loading loading={loading} />
       <h1>Welcome to the Personal Task Management App!</h1>
       <div>
         <h2>Tasks</h2>
