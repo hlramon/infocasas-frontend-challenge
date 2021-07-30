@@ -15,7 +15,7 @@ function FilterAndSort({ onFilterChange, onSortChange, completeness }) {
         </div>
         <div className="col-sm-6">
           <button className="btn btn-info" onClick={onSortChange}>
-            Sort by {completeness ? "completeness" : "uncompleteness"}
+            Sort by {completeness ? "completed" : "no completed"}
           </button>
         </div>
       </div>
