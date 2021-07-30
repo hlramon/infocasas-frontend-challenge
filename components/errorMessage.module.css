@@ -1,0 +1,13 @@
+.errorMessage {
+  position: fixed;
+  top: 10%;
+  left: 50%;
+  z-index: 99;
+  text-align: center;
+  transform: translate(-50%);
+}
+
+.errorMessage div {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
