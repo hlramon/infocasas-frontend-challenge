@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import ErrorMessage from "../components/errorMessage";
 import FilterAndSort from "../components/filterAndSort";
 import Layout from "../components/layout";
 import Loading from "../components/loading";
@@ -9,12 +10,31 @@ function HomePage({ todos }) {
   const [filterTasksInput, setFilterTasksInput] = useState("");
   const [sortByCompleteness, setSortByCompleteness] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (error) {
+      setTimeout(() => {
+        setError("");
+      }, 3000);
+    }
+  }, [error]);
+
+  useEffect(() => {
+    if (!todos || todos.length === 0) {
+      setError("We could not load the previous tasks");
+    }
+  }, [todos]);
 
   const getNewTodoId = () => {
-    const newTodos = [...todosFromState].sort(
-      (todoA, todoB) => todoB.id - todoA.id
-    );
-    return newTodos[0].id + 1;
+    if (todosFromState && todosFromState.length > 0) {
+      const newTodos = [...todosFromState].sort(
+        (todoA, todoB) => todoB.id - todoA.id
+      );
+      return newTodos[0].id + 1;
+    }
+
+    return 300;
   };
 
   const addTodo = async ({ title }) => {
@@ -25,17 +45,31 @@ function HomePage({ todos }) {
         completed: false,
         userId: 1,
       };
+      console.log("🚀 ~ file: index.js ~ line 49 ~ addTodo ~ newTodo", newTodo);
       setLoading(true);
-      const res = await fetch(process.env.NEXT_PUBLIC_API_URL, {
-        method: "POST",
-        body: JSON.stringify(newTodo),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-      });
-      setLoading(false);
 
-      setTodosFromState([...todosFromState, newTodo]);
+      try {
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL, {
+          method: "POST",
+          body: JSON.stringify(newTodo),
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        });
+
+        setLoading(false);
+
+        if (response.ok) {
+          todosFromState && todosFromState.length > 0
+            ? setTodosFromState([...todosFromState, newTodo])
+            : setTodosFromState([newTodo]);
+        } else {
+          setError("We couldn't add the new task. Please try again");
+        }
+      } catch (err) {
+        setLoading(false);
+        setError("We couldn't add the new task. Please try again");
+      }
     }
   };
 
@@ -50,28 +84,46 @@ function HomePage({ todos }) {
 
   const onCheckCompleted = async (id) => {
     const todo = todosFromState.find((todo) => todo.id === id);
+    const completed = todo.completed;
 
     const newTodos = todosFromState.map((todo) => {
       if (todo.id === id) {
-        todo.completed = !todo.completed;
+        return { ...todo, completed: !completed };
       }
       return todo;
     });
 
     setLoading(true);
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${id}`, {
-      method: "PATCH",
-      body: JSON.stringify({
-        completed: todo.completed,
-      }),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-      },
-    });
-    setLoading(false);
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${id}`, {
+        method: "PATCH",
+        body: JSON.stringify({
+          completed: !completed,
+        }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+      setLoading(false);
 
-    setTodosFromState(newTodos);
+      if (response.ok) {
+        setTodosFromState(newTodos);
+      } else {
+        setError(
+          `We couldn't mark ${
+            !completed ? "completed" : "no completed"
+          } the task. Please try again`
+        );
+      }
+    } catch (err) {
+      setLoading(false);
+      setError(
+        `We couldn't mark ${
+          !completed ? "completed" : "no completed"
+        } the task. Please try again`
+      );
+    }
   };
 
   const sortTodos = (todoA, todoB) => {
@@ -86,13 +138,22 @@ function HomePage({ todos }) {
     const newTodos = todosFromState.filter((todo) => todo.id !== id);
     setLoading(true);
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${id}`, {
-      method: "DELETE",
-    });
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${id}`, {
+        method: "DELETE",
+      });
 
-    setLoading(false);
+      setLoading(false);
 
-    setTodosFromState(newTodos);
+      if (response.ok) {
+        setTodosFromState(newTodos);
+      } else {
+        setError("We couldn't delete the task. Please try again");
+      }
+    } catch (err) {
+      setLoading(false);
+      setError("We couldn't delete the task. Please try again");
+    }
   };
 
   const updateTodoTitle = async ({ id, title }) => {
@@ -103,26 +164,38 @@ function HomePage({ todos }) {
     if (todo) {
       const newTodos = todosFromState.map((todo) => {
         if (todo.id === id) {
-          todo.title = title;
+          return { ...todo, title };
         }
         return todo;
       });
 
       setLoading(true);
 
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${id}`, {
-        method: "PATCH",
-        body: JSON.stringify({
-          title: todo.title,
-        }),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-      });
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/${id}`,
+          {
+            method: "PATCH",
+            body: JSON.stringify({
+              title,
+            }),
+            headers: {
+              "Content-type": "application/json; charset=UTF-8",
+            },
+          }
+        );
 
-      setLoading(false);
+        setLoading(false);
 
-      setTodosFromState(newTodos);
+        if (response.ok) {
+          setTodosFromState(newTodos);
+        } else {
+          setError("We couldn't update the task. Please try again");
+        }
+      } catch (err) {
+        setLoading(false);
+        setError("We couldn't update the task. Please try again");
+      }
     }
   };
 
@@ -137,6 +210,7 @@ function HomePage({ todos }) {
   return (
     <Layout>
       <Loading loading={loading} />
+      <ErrorMessage error={error} />
       <h1>Welcome to the Personal Task Management App!</h1>
       <div>
         <h2>Tasks</h2>
@@ -147,7 +221,7 @@ function HomePage({ todos }) {
           <FilterAndSort
             onFilterChange={onFilterChange}
             onSortChange={onSortChange}
-            completeness={!sortByCompleteness}
+            completeness={sortByCompleteness}
           />
 
           <Todos
@@ -165,14 +239,30 @@ function HomePage({ todos }) {
 }
 
 export async function getServerSideProps(context) {
-  const res = await fetch(process.env.NEXT_PUBLIC_API_URL);
-  const todos = await res.json();
+  try {
+    const res = await fetch(process.env.NEXT_PUBLIC_API_URL);
 
-  return {
-    props: {
-      todos,
-    },
-  };
+    if (res.ok) {
+      const todos = await res.json();
+      return {
+        props: {
+          todos,
+        },
+      };
+    } else {
+      return {
+        props: {
+          todos: [],
+        },
+      };
+    }
+  } catch (error) {
+    return {
+      props: {
+        todos: [],
+      },
+    };
+  }
 }
 
 export default HomePage;

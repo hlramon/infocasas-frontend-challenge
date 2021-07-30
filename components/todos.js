@@ -14,20 +14,22 @@ function Todos({
   return (
     <div className={utilStyles.marginTop}>
       <ul className={styles.todosList}>
-        {todos
-          .filter(filterTodos)
-          .sort(sortTodos)
-          .map((todo) => {
-            return (
-              <Todo
-                key={todo.id}
-                todo={todo}
-                onCheckCompleted={onCheckCompleted}
-                updateTodoTitle={updateTodoTitle}
-                deleteTodo={deleteTodo}
-              />
-            );
-          })}
+        {todos &&
+          todos.length > 0 &&
+          todos
+            .filter(filterTodos)
+            .sort(sortTodos)
+            .map((todo) => {
+              return (
+                <Todo
+                  key={todo.id}
+                  todo={todo}
+                  onCheckCompleted={onCheckCompleted}
+                  updateTodoTitle={updateTodoTitle}
+                  deleteTodo={deleteTodo}
+                />
+              );
+            })}
       </ul>
     </div>
   );
