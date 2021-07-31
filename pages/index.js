@@ -61,7 +61,7 @@ function HomePage({ todos }) {
 
         if (response.ok) {
           todosFromState && todosFromState.length > 0
-            ? setTodosFromState([...todosFromState, newTodo])
+            ? setTodosFromState((prevState) => [...prevState, newTodo])
             : setTodosFromState([newTodo]);
         } else {
           setError("We couldn't add the new task. Please try again");
@@ -77,9 +77,7 @@ function HomePage({ todos }) {
     if (filterTasksInput === "") {
       return todo;
     }
-    if (todo.title.toLowerCase().includes(filterTasksInput.toLowerCase())) {
-      return todo;
-    }
+    return todo.title.toLowerCase().includes(filterTasksInput.toLowerCase());
   };
 
   const onCheckCompleted = async (id) => {
